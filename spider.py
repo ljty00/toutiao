@@ -6,7 +6,7 @@ from hashlib import md5
 from multiprocessing.pool import Pool
 import re
 
-
+# 获取页面文件
 def get_page(offset):
     params = {
         'offset': offset,
@@ -26,7 +26,7 @@ def get_page(offset):
     except requests.ConnectionError:
         return None
 
-
+# 获取图片文件
 def get_images(json):
     if json.get('data'):
         data = json.get('data')
@@ -42,7 +42,7 @@ def get_images(json):
                     'title': title
                 }
 
-
+# 保存图片文件至本地
 def save_image(item):
     img_path = 'img' + os.path.sep + item.get('title')
     if not os.path.exists(img_path):
@@ -62,7 +62,7 @@ def save_image(item):
     except requests.ConnectionError:
         print('Failed to Save Image，item %s' % item)
 
-
+# 主函数
 def main(offset):
     json = get_page(offset)
     for item in get_images(json):
